@@ -33,10 +33,7 @@ public class CsvService {
         }
 
         List<String> columnNames = getOrderedColumnNames(headerMap);
-        List<CsvRow> rows = csvRecords.getRecords()
-                .stream()
-                .map(record -> new CsvRow(record.toMap()))
-                .collect(Collectors.toList());
+        List<CsvRow> rows = buildCsvRows(csvRecords);
 
         return new CsvFile(columnNames, rows);
     }
@@ -56,6 +53,13 @@ public class CsvService {
                 csvPrinter.printRecord(record);
             }
         }
+    }
+
+    private List<CsvRow> buildCsvRows(CSVParser csvRecords) throws IOException {
+        return csvRecords.getRecords()
+                .stream()
+                .map(record -> new CsvRow(record.toMap()))
+                .collect(Collectors.toList());
     }
 
     private static List<String> getOrderedColumnNames(Map<String, Integer> headerMap) {
