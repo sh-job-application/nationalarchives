@@ -18,4 +18,9 @@ public class CsvFile {
     public List<String> getColumnNames() {
         return columnNames;
     }
+
+    public void updateField(String columnName, int rowNumber, String newValue) {
+        int rowIndex = rowNumber - 1;
+        rows.get(rowIndex).updateField(columnName, newValue);
+    }
 }

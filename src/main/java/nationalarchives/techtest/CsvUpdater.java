@@ -17,6 +17,7 @@ public class CsvUpdater {
         Arguments arguments = Arguments.parse(args);
 
         CsvFile csvFile = csvService.readCsv(arguments.getFilePath());
+        csvFile.updateField(arguments.getColumnName(), arguments.getRowNumber(), arguments.getNewValue());
     }
 
     public static void main(String[] args) throws IOException {
