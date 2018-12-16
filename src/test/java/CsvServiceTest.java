@@ -9,6 +9,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertTrue;
 
 public class CsvServiceTest {
@@ -20,6 +21,15 @@ public class CsvServiceTest {
         CsvFile csvFile = csvService.readCsv(csvInputPath);
 
         assertTrue(csvFile.getRows().isEmpty());
+    }
+
+    @Test
+    public void readsHeadersFromFileWithData() throws URISyntaxException, IOException {
+        Path csvInputPath = fixturePath("hasData.csv");
+        CsvFile csvFile = csvService.readCsv(csvInputPath);
+
+        List<String> columnNames = csvFile.getColumnNames();
+        assertThat(columnNames).containsExactly("column1", "column2");
     }
 
     @Test(expected = IllegalArgumentException.class)
