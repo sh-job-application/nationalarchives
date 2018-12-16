@@ -21,8 +21,7 @@ public class CsvService {
             throw new FileNotFoundException(String.format("Could not find file at %s", filePath));
         }
 
-        File file = new File(filePath.toUri());
-        Reader fileReader = new FileReader(file);
+        Reader fileReader = new FileReader(filePath.toFile());
         CSVParser csvRecords = CSVFormat.DEFAULT
                 .withIgnoreSurroundingSpaces()
                 .withFirstRecordAsHeader()

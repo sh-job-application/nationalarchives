@@ -77,21 +77,20 @@ public class CsvServiceTest {
                 .withRow("value1", "value2")
                 .withRow("value3", "value4")
                 .build();
-        Path fileUrl = outputPath("output.csv");
+        Path path = outputPath("output.csv");
 
-        csvService.saveCsv(csvFile, fileUrl);
+        csvService.saveCsv(csvFile, path);
 
         String expectedContents = "someHeader,otherHeader\n" +
                 "value1,value2\n" +
                 "value3,value4\n";
-        String fileContents = readFile(fileUrl);
+        String fileContents = readFile(path);
         assertEquals(expectedContents, fileContents);
     }
 
     private Path fixturePath(String fixtureFileName) {
         URL fileUrl = this.getClass().getResource("/fixtures/csvServiceTest/" + fixtureFileName);
-        String path = fileUrl.getPath();
-        return Paths.get(path);
+        return Paths.get(fileUrl.getPath());
     }
 
     private Path outputPath(String outputFileName) throws IOException {
