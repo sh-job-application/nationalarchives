@@ -46,6 +46,13 @@ public class ArgumentsTest {
         Arguments.parse(new String[] {"someFilePath", "someColumnName", "notANumber", "someNewValue"});
     }
 
+    @Test
+    public void parsesNewFieldValue() {
+        Arguments arguments = Arguments.parse(new String[] {"someFilePath", "someColumnName", "7", "someNewValue"});
+
+        assertEquals("someNewValue", arguments.getNewValue());
+    }
+
     @Test(expected = Arguments.InvalidArgumentException.class)
     public void rejectsEmptyArguments() {
         Arguments.parse(new String[] {});

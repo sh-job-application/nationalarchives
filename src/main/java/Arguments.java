@@ -5,11 +5,13 @@ public class Arguments {
     private final Path filePath;
     private final String columnName;
     private final int rowNumber;
+    private final String newValue;
 
-    public Arguments(Path filePath, String columnName, int rowNumber) {
+    public Arguments(Path filePath, String columnName, int rowNumber, String newValue) {
         this.filePath = filePath;
         this.columnName = columnName;
         this.rowNumber = rowNumber;
+        this.newValue = newValue;
     }
 
     public Path getFilePath() {
@@ -24,6 +26,10 @@ public class Arguments {
         return rowNumber;
     }
 
+    public String getNewValue() {
+        return newValue;
+    }
+
     public static Arguments parse(String[] args) {
         if (args.length == 0) {
             throw new InvalidArgumentException();
@@ -32,8 +38,9 @@ public class Arguments {
         Path path = parsePath(args[0]);
         String columnName = parseColumnName(args[1]);
         int rowNumber = parseRowNumber(args[2]);
+        String newValue = args[3];
 
-        return new Arguments(path, columnName, rowNumber);
+        return new Arguments(path, columnName, rowNumber, newValue);
     }
 
     private static Path parsePath(String pathArg) {
