@@ -2,7 +2,6 @@ import org.junit.Test;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Path;
@@ -30,6 +29,19 @@ public class CsvServiceTest {
 
         List<String> columnNames = csvFile.getColumnNames();
         assertThat(columnNames).containsExactly("column1", "column2");
+    }
+
+    @Test
+    public void readsValuesFromFileWithData() throws URISyntaxException, IOException {
+        Path csvInputPath = fixturePath("hasData.csv");
+        CsvFile csvFile = csvService.readCsv(csvInputPath);
+
+        List<CsvRow> rows = csvFile.getRows();
+        assertThat(rows).hasSize(2);
+        assertThat(rows.get(0).get("column1")).isEqualTo("value1");
+        assertThat(rows.get(0).get("column2")).isEqualTo("value2");
+        assertThat(rows.get(1).get("column1")).isEqualTo("value3");
+        assertThat(rows.get(1).get("column2")).isEqualTo("value4");
     }
 
     @Test(expected = IllegalArgumentException.class)

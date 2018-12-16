@@ -30,7 +30,7 @@ public class CsvService {
 
         List<String> columnNames = getOrderedColumnNames(headerMap);
 
-        return new CsvFile(columnNames);
+        return new CsvFile(columnNames, csvRecords.getRecords());
     }
 
     private static List<String> getOrderedColumnNames(Map<String, Integer> headerMap) {
