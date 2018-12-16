@@ -29,8 +29,12 @@ public class CsvService {
         }
 
         List<String> columnNames = getOrderedColumnNames(headerMap);
+        List<CsvRow> rows = csvRecords.getRecords()
+                .stream()
+                .map(strings -> new CsvRow(strings))
+                .collect(Collectors.toList());
 
-        return new CsvFile(columnNames, csvRecords.getRecords());
+        return new CsvFile(columnNames, rows);
     }
 
     private static List<String> getOrderedColumnNames(Map<String, Integer> headerMap) {
