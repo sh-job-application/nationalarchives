@@ -29,6 +29,13 @@ public class ArgumentsTest {
         Arguments arguments = Arguments.parse(new String[] {"someFilePath", "", "7", "someNewValue"});
     }
 
+    @Test
+    public void parsesValidRowNumber() {
+        Arguments arguments = Arguments.parse(new String[] {"someFilePath", "someColumnName", "7", "someNewValue"});
+
+        assertEquals(7, arguments.getRowNumber());
+    }
+
     @Test(expected = Arguments.InvalidArgumentException.class)
     public void rejectsEmptyArguments() {
         Arguments.parse(new String[] {});

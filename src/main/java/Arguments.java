@@ -4,10 +4,12 @@ import java.nio.file.Paths;
 public class Arguments {
     private final Path filePath;
     private final String columnName;
+    private final int rowNumber;
 
-    public Arguments(Path filePath, String columnName) {
+    public Arguments(Path filePath, String columnName, int rowNumber) {
         this.filePath = filePath;
         this.columnName = columnName;
+        this.rowNumber = rowNumber;
     }
 
     public Path getFilePath() {
@@ -18,6 +20,10 @@ public class Arguments {
         return columnName;
     }
 
+    public int getRowNumber() {
+        return rowNumber;
+    }
+
     public static Arguments parse(String[] args) {
         if (args.length == 0) {
             throw new InvalidArgumentException();
@@ -25,8 +31,9 @@ public class Arguments {
 
         Path path = parsePath(args[0]);
         String columnName = parseColumnName(args[1]);
+        int rowNumber = parseRowNumber(args[2]);
 
-        return new Arguments(path, columnName);
+        return new Arguments(path, columnName, rowNumber);
     }
 
     private static Path parsePath(String pathArg) {
@@ -43,6 +50,10 @@ public class Arguments {
         }
 
         return columnNameArg;
+    }
+
+    private static int parseRowNumber(String rowNumberArg) {
+        return Integer.parseInt(rowNumberArg);
     }
 
     public static class InvalidArgumentException extends RuntimeException {
