@@ -13,18 +13,30 @@ Run the Gradle wrapper provided, using `--args` to specify the the parameters:
 * The row number to update, indexed from 1 (e.g. the first row of data is 1 rather than 0)
 * The new value of the field
 
-For example, to update column "origin" in row 3 to the value "London":
+For example, to update column "origin" in row 3 to the value "London", on Mac or Linux:
 
 ```
 ./gradlew run --args "/some/input/file.csv origin 3 London"
 ```
 
+or on Windows:
+
+```
+.\gradlew.bat run --args "/some/input/file.csv origin 3 London"
+```
+
 ### Run the tests
 
-To run all tests:
+To run all tests on Mac or Linux:
 
 ```
 ./gradlew cleanTest test"
+```
+
+on Windows:
+
+```
+.\gradlew.bat cleanTest test"
 ```
 
 (If you skip `cleanTest`, gradle will only run tests for code that has changed since the last test run.)
