@@ -57,4 +57,9 @@ public class ArgumentsTest {
     public void rejectsEmptyArguments() {
         Arguments.parse(new String[] {});
     }
+
+    @Test(expected = Arguments.InvalidArgumentException.class)
+    public void rejectsWrongNumberOfArguments() {
+        Arguments.parse(new String[] {"1", "2", "3", "4", "5"});
+    }
 }

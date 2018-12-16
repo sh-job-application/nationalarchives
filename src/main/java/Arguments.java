@@ -31,8 +31,10 @@ public class Arguments {
     }
 
     public static Arguments parse(String[] args) {
-        if (args.length == 0) {
-            throw new InvalidArgumentException();
+        if (args.length != 4) {
+            throw new InvalidArgumentException(
+                    String.format("Expected 4 arguments but got %d", args.length)
+            );
         }
 
         Path path = parsePath(args[0]);
