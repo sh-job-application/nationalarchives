@@ -1,3 +1,4 @@
+import java.io.FileNotFoundException;
 import java.util.List;
 
 public class CsvUpdater {
@@ -7,13 +8,13 @@ public class CsvUpdater {
         this.csvService = csvService;
     }
 
-    public void updateCsv(String[] args) {
+    public void updateCsv(String[] args) throws FileNotFoundException {
         Arguments arguments = Arguments.parse(args);
 
         List<CsvData> csvData = csvService.readCsv(arguments.getFilePath());
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws FileNotFoundException {
         CsvService csvService = new CsvService();
         new CsvUpdater(csvService).updateCsv(args);
     }
