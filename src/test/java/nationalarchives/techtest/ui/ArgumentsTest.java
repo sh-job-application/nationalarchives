@@ -1,6 +1,5 @@
 package nationalarchives.techtest.ui;
 
-import nationalarchives.techtest.ui.Arguments;
 import org.junit.Test;
 
 import java.nio.file.Paths;
@@ -15,7 +14,7 @@ public class ArgumentsTest {
         assertEquals(Paths.get("someFilePath"), arguments.getFilePath());
     }
 
-    @Test(expected = Arguments.InvalidArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void rejectsEmptyFilePath() {
         Arguments.parse(new String[] {"", "someColumnName", "7", "someNewValue"});
     }
@@ -27,7 +26,7 @@ public class ArgumentsTest {
         assertEquals("someColumnName", arguments.getColumnName());
     }
 
-    @Test(expected = Arguments.InvalidArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void rejectsEmptyColumnName() {
         Arguments.parse(new String[] {"someFilePath", "", "7", "someNewValue"});
     }
@@ -39,12 +38,12 @@ public class ArgumentsTest {
         assertEquals(7, arguments.getRowNumber());
     }
 
-    @Test(expected = Arguments.InvalidArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void rejectsMissingRowNumber() {
         Arguments.parse(new String[] {"someFilePath", "someColumnName", "", "someNewValue"});
     }
 
-    @Test(expected = Arguments.InvalidArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void rejectsInvalidRowNumber() {
         Arguments.parse(new String[] {"someFilePath", "someColumnName", "notANumber", "someNewValue"});
     }
@@ -56,12 +55,12 @@ public class ArgumentsTest {
         assertEquals("someNewValue", arguments.getNewValue());
     }
 
-    @Test(expected = Arguments.InvalidArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void rejectsEmptyArguments() {
         Arguments.parse(new String[] {});
     }
 
-    @Test(expected = Arguments.InvalidArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void rejectsWrongNumberOfArguments() {
         Arguments.parse(new String[] {"1", "2", "3", "4", "5"});
     }

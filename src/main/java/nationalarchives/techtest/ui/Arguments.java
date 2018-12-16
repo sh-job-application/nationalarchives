@@ -34,7 +34,7 @@ public class Arguments {
 
     public static Arguments parse(String[] args) {
         if (args.length != 4) {
-            throw new InvalidArgumentException(
+            throw new IllegalArgumentException(
                     String.format("Expected 4 arguments but got %d", args.length)
             );
         }
@@ -49,7 +49,7 @@ public class Arguments {
 
     private static Path parsePath(String pathArg) {
         if (pathArg.isEmpty()) {
-            throw new InvalidArgumentException("CSV file path cannot be empty");
+            throw new IllegalArgumentException("CSV file path cannot be empty");
         }
 
         return Paths.get(pathArg);
@@ -57,7 +57,7 @@ public class Arguments {
 
     private static String parseColumnName(String columnNameArg) {
         if (columnNameArg.isEmpty()) {
-            throw new InvalidArgumentException("Column name cannot be empty");
+            throw new IllegalArgumentException("Column name cannot be empty");
         }
 
         return columnNameArg;
@@ -67,24 +67,10 @@ public class Arguments {
         try {
             return Integer.parseInt(rowNumberArg);
         } catch (NumberFormatException e) {
-            throw new InvalidArgumentException(
+            throw new IllegalArgumentException(
                     String.format("Invalid row number: got '%s' but expected an integer", rowNumberArg),
                     e
             );
-        }
-    }
-
-    public static class InvalidArgumentException extends RuntimeException {
-        public InvalidArgumentException() {
-            super();
-        }
-
-        public InvalidArgumentException(String message) {
-            super(message);
-        }
-
-        public InvalidArgumentException(String message, Throwable cause) {
-            super(message, cause);
         }
     }
 }
