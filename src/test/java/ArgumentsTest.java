@@ -13,6 +13,11 @@ public class ArgumentsTest {
     }
 
     @Test(expected = Arguments.InvalidArgumentException.class)
+    public void rejectsEmptyFilePath() {
+        Arguments arguments = Arguments.parse(new String[] {"", "origin", "7", "someNewValue"});
+    }
+
+    @Test(expected = Arguments.InvalidArgumentException.class)
     public void rejectsEmptyArguments() {
         Arguments.parse(new String[] {});
     }

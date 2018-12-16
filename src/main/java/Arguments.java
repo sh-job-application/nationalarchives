@@ -17,9 +17,21 @@ public class Arguments {
             throw new InvalidArgumentException();
         }
 
+        String pathArg = args[0];
+        if (pathArg.isEmpty()) {
+            throw new InvalidArgumentException("CSV file path cannot be empty");
+        }
+
         return new Arguments(Paths.get(args[0]));
     }
 
     public static class InvalidArgumentException extends RuntimeException {
+        public InvalidArgumentException() {
+            super();
+        }
+
+        public InvalidArgumentException(String message) {
+            super(message);
+        }
     }
 }
