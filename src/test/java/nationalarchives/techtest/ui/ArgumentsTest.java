@@ -1,3 +1,6 @@
+package nationalarchives.techtest.ui;
+
+import nationalarchives.techtest.ui.Arguments;
 import org.junit.Test;
 
 import java.nio.file.Paths;

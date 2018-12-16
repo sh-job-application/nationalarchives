@@ -19,4 +19,4 @@ dependencies {
     testCompile group: 'org.assertj', name: 'assertj-core', version: '3.11.1'
 }
 
-mainClassName = "CsvUpdater"
+mainClassName = "nationalarchives.techtest.CsvUpdater"

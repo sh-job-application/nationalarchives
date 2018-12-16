@@ -1,3 +1,6 @@
+package nationalarchives.techtest;
+
+import nationalarchives.techtest.CsvUpdater;
 import org.apache.commons.io.FileUtils;
 import org.junit.Test;
 

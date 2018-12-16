@@ -1,3 +1,5 @@
+package nationalarchives.techtest.data;
+
 import org.apache.commons.csv.CSVRecord;
 
 import java.util.Map;

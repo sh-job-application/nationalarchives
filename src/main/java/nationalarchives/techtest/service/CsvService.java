@@ -1,3 +1,7 @@
+package nationalarchives.techtest.service;
+
+import nationalarchives.techtest.data.CsvFile;
+import nationalarchives.techtest.data.CsvRow;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 

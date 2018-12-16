@@ -1,3 +1,5 @@
+package nationalarchives.techtest.data;
+
 import java.util.List;
 
 public class CsvFile {
