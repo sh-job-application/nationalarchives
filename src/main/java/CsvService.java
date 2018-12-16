@@ -4,12 +4,10 @@ import org.apache.commons.csv.CSVParser;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 public class CsvService {
-    public List<CsvData> readCsv(Path filePath) throws IOException {
+    public CsvFile readCsv(Path filePath) throws IOException {
         if (!Files.exists(filePath)) {
             throw new FileNotFoundException(String.format("Could not find file at %s", filePath));
         }
@@ -23,6 +21,6 @@ public class CsvService {
             throw new IllegalArgumentException("Cannot update CSV with no header row");
         }
 
-        return new ArrayList<>();
+        return new CsvFile();
     }
 }

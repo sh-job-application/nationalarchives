@@ -17,9 +17,9 @@ public class CsvServiceTest {
     @Test
     public void readsFileWithNoRowData() throws URISyntaxException, IOException {
         Path csvInputPath = fixturePath("emptyRows.csv");
-        List<CsvData> csvData = csvService.readCsv(csvInputPath);
+        CsvFile csvFile = csvService.readCsv(csvInputPath);
 
-        assertTrue(csvData.isEmpty());
+        assertTrue(csvFile.getRows().isEmpty());
     }
 
     @Test(expected = IllegalArgumentException.class)

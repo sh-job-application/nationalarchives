@@ -12,7 +12,7 @@ public class CsvUpdater {
     public void updateCsv(String[] args) throws IOException {
         Arguments arguments = Arguments.parse(args);
 
-        List<CsvData> csvData = csvService.readCsv(arguments.getFilePath());
+        CsvFile csvFile = csvService.readCsv(arguments.getFilePath());
     }
 
     public static void main(String[] args) throws IOException {
