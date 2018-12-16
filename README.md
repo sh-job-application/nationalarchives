@@ -21,9 +21,13 @@ For example, to update column "origin" in row 3 to the value "London":
 
 ### Run the tests
 
+To run all tests:
+
 ```
-./gradlew test"
+./gradlew cleanTest test"
 ```
+
+(If you skip `cleanTest`, gradle will only run tests for code that has changed since the last test run.)
 
 ## Specification
 

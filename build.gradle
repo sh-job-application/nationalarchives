@@ -20,3 +20,9 @@ dependencies {
 }
 
 mainClassName = "nationalarchives.techtest.CsvUpdater"
+
+test {
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
+}
