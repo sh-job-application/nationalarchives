@@ -104,7 +104,8 @@ public class CsvServiceTest {
 
     private Path fixturePath(String fixtureFileName) {
         URL fileUrl = this.getClass().getResource("/fixtures/csvServiceTest/" + fixtureFileName);
-        return Paths.get(fileUrl.getPath());
+        File file = new File(fileUrl.getFile());
+        return Paths.get(file.getAbsolutePath());
     }
 
     private Path outputPath(String outputFileName) throws IOException {
