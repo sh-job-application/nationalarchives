@@ -14,7 +14,7 @@ public class ArgumentsTest {
 
     @Test(expected = Arguments.InvalidArgumentException.class)
     public void rejectsEmptyFilePath() {
-        Arguments arguments = Arguments.parse(new String[] {"", "someColumnName", "7", "someNewValue"});
+        Arguments.parse(new String[] {"", "someColumnName", "7", "someNewValue"});
     }
 
     @Test
@@ -26,7 +26,7 @@ public class ArgumentsTest {
 
     @Test(expected = Arguments.InvalidArgumentException.class)
     public void rejectsEmptyColumnName() {
-        Arguments arguments = Arguments.parse(new String[] {"someFilePath", "", "7", "someNewValue"});
+        Arguments.parse(new String[] {"someFilePath", "", "7", "someNewValue"});
     }
 
     @Test
@@ -34,6 +34,16 @@ public class ArgumentsTest {
         Arguments arguments = Arguments.parse(new String[] {"someFilePath", "someColumnName", "7", "someNewValue"});
 
         assertEquals(7, arguments.getRowNumber());
+    }
+
+    @Test(expected = Arguments.InvalidArgumentException.class)
+    public void rejectsMissingRowNumber() {
+        Arguments.parse(new String[] {"someFilePath", "someColumnName", "", "someNewValue"});
+    }
+
+    @Test(expected = Arguments.InvalidArgumentException.class)
+    public void rejectsInvalidRowNumber() {
+        Arguments.parse(new String[] {"someFilePath", "someColumnName", "notANumber", "someNewValue"});
     }
 
     @Test(expected = Arguments.InvalidArgumentException.class)

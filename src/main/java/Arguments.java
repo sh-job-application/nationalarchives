@@ -53,7 +53,14 @@ public class Arguments {
     }
 
     private static int parseRowNumber(String rowNumberArg) {
-        return Integer.parseInt(rowNumberArg);
+        try {
+            return Integer.parseInt(rowNumberArg);
+        } catch (NumberFormatException e) {
+            throw new InvalidArgumentException(
+                    String.format("Invalid row number: got '%s' but expected an integer", rowNumberArg),
+                    e
+            );
+        }
     }
 
     public static class InvalidArgumentException extends RuntimeException {
@@ -63,6 +70,10 @@ public class Arguments {
 
         public InvalidArgumentException(String message) {
             super(message);
+        }
+
+        public InvalidArgumentException(String message, Throwable cause) {
+            super(message, cause);
         }
     }
 }
