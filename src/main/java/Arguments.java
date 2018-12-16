@@ -28,7 +28,12 @@ public class Arguments {
             throw new InvalidArgumentException("CSV file path cannot be empty");
         }
 
-        return new Arguments(Paths.get(args[0]), args[1]);
+        String columnNameArg = args[1];
+        if (columnNameArg.isEmpty()) {
+            throw new InvalidArgumentException("Column name cannot be empty");
+        }
+
+        return new Arguments(Paths.get(pathArg), columnNameArg);
     }
 
     public static class InvalidArgumentException extends RuntimeException {

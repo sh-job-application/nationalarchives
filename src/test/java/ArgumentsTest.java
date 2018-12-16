@@ -25,6 +25,11 @@ public class ArgumentsTest {
     }
 
     @Test(expected = Arguments.InvalidArgumentException.class)
+    public void rejectsEmptyColumnName() {
+        Arguments arguments = Arguments.parse(new String[] {"someFilePath", "", "7", "someNewValue"});
+    }
+
+    @Test(expected = Arguments.InvalidArgumentException.class)
     public void rejectsEmptyArguments() {
         Arguments.parse(new String[] {});
     }
