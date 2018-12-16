@@ -11,7 +11,6 @@ import org.junit.rules.TemporaryFolder;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.file.Path;
@@ -72,7 +71,7 @@ public class CsvServiceTest {
     }
 
     @Test
-    public void savesDataToFile() throws IOException, URISyntaxException {
+    public void savesDataToFile() throws IOException {
         CsvFile csvFile = new CsvFileBuilder()
                 .withHeaders("someHeader", "otherHeader")
                 .withRow("value1", "value2")
