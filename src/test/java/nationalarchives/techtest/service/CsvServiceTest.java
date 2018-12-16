@@ -2,12 +2,10 @@ package nationalarchives.techtest.service;
 
 import nationalarchives.techtest.data.CsvFile;
 import nationalarchives.techtest.data.CsvRow;
-import nationalarchives.techtest.service.CsvService;
 import org.junit.Test;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -20,7 +18,7 @@ public class CsvServiceTest {
     private final CsvService csvService = new CsvService();
 
     @Test
-    public void readsFileWithNoRowData() throws URISyntaxException, IOException {
+    public void readsFileWithNoRowData() throws IOException {
         Path csvInputPath = fixturePath("emptyRows.csv");
         CsvFile csvFile = csvService.readCsv(csvInputPath);
 
@@ -28,7 +26,7 @@ public class CsvServiceTest {
     }
 
     @Test
-    public void readsHeadersFromFileWithData() throws URISyntaxException, IOException {
+    public void readsHeadersFromFileWithData() throws IOException {
         Path csvInputPath = fixturePath("hasData.csv");
         CsvFile csvFile = csvService.readCsv(csvInputPath);
 
@@ -37,7 +35,7 @@ public class CsvServiceTest {
     }
 
     @Test
-    public void readsValuesFromFileWithData() throws URISyntaxException, IOException {
+    public void readsValuesFromFileWithData() throws IOException {
         Path csvInputPath = fixturePath("hasData.csv");
         CsvFile csvFile = csvService.readCsv(csvInputPath);
 
@@ -50,7 +48,7 @@ public class CsvServiceTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void rejectsCompletelyEmptyFile() throws URISyntaxException, IOException {
+    public void rejectsCompletelyEmptyFile() throws IOException {
         Path missingPath = fixturePath("empty.csv");
 
         csvService.readCsv(missingPath);
@@ -62,9 +60,9 @@ public class CsvServiceTest {
         csvService.readCsv(missingPath);
     }
 
-    private Path fixturePath(String fixtureFile) throws URISyntaxException {
+    private Path fixturePath(String fixtureFile) {
         URL fileUrl = this.getClass()
                 .getResource("/fixtures/csvServiceTest/" + fixtureFile);
-        return Paths.get(fileUrl.toURI());
+        return Paths.get(fileUrl.getPath());
     }
 }
