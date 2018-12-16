@@ -57,7 +57,21 @@ public class CsvServiceTest {
         assertThat(rows.get(1).get("column2")).isEqualTo("value4");
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = CsvService.InvalidCsvException.class)
+    public void rejectsFileWithMissingDataInRows() throws IOException {
+        Path missingPath = fixturePath("missingData.csv");
+
+        csvService.readCsv(missingPath);
+    }
+
+    @Test(expected = CsvService.InvalidCsvException.class)
+    public void rejectsFileWithExtraInRows() throws IOException {
+        Path missingPath = fixturePath("extraData.csv");
+
+        csvService.readCsv(missingPath);
+    }
+
+    @Test(expected = CsvService.InvalidCsvException.class)
     public void rejectsCompletelyEmptyFile() throws IOException {
         Path missingPath = fixturePath("empty.csv");
 

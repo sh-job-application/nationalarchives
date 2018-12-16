@@ -5,6 +5,7 @@ import nationalarchives.techtest.data.CsvRow;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVPrinter;
+import org.apache.commons.csv.CSVRecord;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -13,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class CsvService {
@@ -22,20 +24,33 @@ public class CsvService {
         }
 
         Reader fileReader = new FileReader(filePath.toFile());
-        CSVParser csvRecords = CSVFormat.DEFAULT
+        CSVParser csvParser = CSVFormat.DEFAULT
                 .withIgnoreSurroundingSpaces()
                 .withFirstRecordAsHeader()
                 .parse(fileReader);
 
-        Map<String, Integer> headerMap = csvRecords.getHeaderMap();
-        if (headerMap.isEmpty()) {
-            throw new IllegalArgumentException("Cannot update CSV with no header row");
-        }
+        Map<String, Integer> headerMap = csvParser.getHeaderMap();
+        List<CSVRecord> records = csvParser.getRecords();
+
+        validateHeaders(headerMap);
+        validateRecords(records);
 
         List<String> columnNames = getOrderedColumnNames(headerMap);
-        List<CsvRow> rows = buildCsvRows(csvRecords);
+        List<CsvRow> rows = buildCsvRows(records);
 
         return new CsvFile(columnNames, rows);
+    }
+
+    private void validateHeaders(Map<String, Integer> headers) {
+        if (headers.isEmpty()) {
+            throw new InvalidCsvException("Cannot update CSV with no header row");
+        }
+    }
+
+    private void validateRecords(List<CSVRecord> records) {
+        if (records.stream().anyMatch(record -> !record.isConsistent())) {
+            throw new InvalidCsvException("Some CSV rows have different number of fields to column names");
+        }
     }
 
     public void saveCsv(CsvFile csvFile, Path path) throws IOException {
@@ -55,8 +70,8 @@ public class CsvService {
         }
     }
 
-    private List<CsvRow> buildCsvRows(CSVParser csvRecords) throws IOException {
-        return csvRecords.getRecords()
+    private List<CsvRow> buildCsvRows(List<CSVRecord> csvRecords) throws IOException {
+        return csvRecords
                 .stream()
                 .map(record -> new CsvRow(record.toMap()))
                 .collect(Collectors.toList());
@@ -67,5 +82,12 @@ public class CsvService {
         entries.sort(Comparator.comparing(Map.Entry::getValue));
 
         return entries.stream().map(stringIntegerEntry -> stringIntegerEntry.getKey()).collect(Collectors.toList());
+    }
+
+    public class InvalidCsvException extends RuntimeException {
+
+        public InvalidCsvException(String message) {
+            super(message);
+        }
     }
 }

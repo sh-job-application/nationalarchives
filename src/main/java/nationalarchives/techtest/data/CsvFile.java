@@ -20,13 +20,14 @@ public class CsvFile {
     }
 
     public void updateField(String columnName, int rowNumber, String newValue) {
-        if (!columnNames.contains(columnName)) {
-            throw new IllegalArgumentException(String.format(
-                    "Column name '%s' not in columns in file: %s",
-                    columnName,
-                    String.join(", ", columnNames)
-            ));
-        }
+        validateColumn(columnName);
+        validateRow(rowNumber);
+
+        int rowIndex = rowNumber - 1;
+        rows.get(rowIndex).updateField(columnName, newValue);
+    }
+
+    private void validateRow(int rowNumber) {
         if (rowNumber < 1 || rowNumber > rows.size()) {
             throw new IllegalArgumentException(String.format(
                     "Cannot update row %d of CSV with %d rows",
@@ -34,8 +35,15 @@ public class CsvFile {
                     rows.size()
             ));
         }
+    }
 
-        int rowIndex = rowNumber - 1;
-        rows.get(rowIndex).updateField(columnName, newValue);
+    private void validateColumn(String columnName) {
+        if (!columnNames.contains(columnName)) {
+            throw new IllegalArgumentException(String.format(
+                    "Column name '%s' not in columns in file: %s",
+                    columnName,
+                    String.join(", ", columnNames)
+            ));
+        }
     }
 }
