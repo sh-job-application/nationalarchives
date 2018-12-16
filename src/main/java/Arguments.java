@@ -3,13 +3,19 @@ import java.nio.file.Paths;
 
 public class Arguments {
     private final Path filePath;
+    private final String columnName;
 
-    public Arguments(Path filePath) {
+    public Arguments(Path filePath, String columnName) {
         this.filePath = filePath;
+        this.columnName = columnName;
     }
 
     public Path getFilePath() {
         return filePath;
+    }
+
+    public String getColumnName() {
+        return columnName;
     }
 
     public static Arguments parse(String[] args) {
@@ -22,7 +28,7 @@ public class Arguments {
             throw new InvalidArgumentException("CSV file path cannot be empty");
         }
 
-        return new Arguments(Paths.get(args[0]));
+        return new Arguments(Paths.get(args[0]), args[1]);
     }
 
     public static class InvalidArgumentException extends RuntimeException {
