@@ -17,10 +17,10 @@ public class CsvFileTest {
             .withRow("value2.1", "value2.2", "value2.3")
             .build();
 
-        file.updateField("col3", 1, "new value");
+        file.updateField("col3", 2, "new value");
 
         assertThat(file.getRows()).hasSize(2);
-        assertThat(file.getRows().get(0).get("col3")).isEqualTo("new value");
+        assertThat(file.getRows().get(1).get("col3")).isEqualTo("new value");
     }
 
     @Test
@@ -38,5 +38,15 @@ public class CsvFileTest {
         assertThat(file.getRows().get(1).get("col1")).isEqualTo("value2.1");
         assertThat(file.getRows().get(1).get("col2")).isEqualTo("value2.2");
         assertThat(file.getRows().get(1).get("col3")).isEqualTo("value2.3");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void rejectsUnknownColumn() {
+        CsvFile file = new CsvFileBuilder()
+                .withHeaders("col1", "col2", "col3")
+                .withRow("value1", "value1", "value1")
+                .build();
+
+        file.updateField("otherColumn", 1, "new value");
     }
 }

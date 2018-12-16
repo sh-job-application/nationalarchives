@@ -1,5 +1,6 @@
 package nationalarchives.techtest.data;
 
+import java.util.Collections;
 import java.util.List;
 
 public class CsvFile {
@@ -20,6 +21,14 @@ public class CsvFile {
     }
 
     public void updateField(String columnName, int rowNumber, String newValue) {
+        if (!columnNames.contains(columnName)) {
+            throw new IllegalArgumentException(String.format(
+                    "Column name '%s' not in columns in file: %s",
+                    columnName,
+                    String.join(", ", columnNames)
+            ));
+        }
+
         int rowIndex = rowNumber - 1;
         rows.get(rowIndex).updateField(columnName, newValue);
     }
