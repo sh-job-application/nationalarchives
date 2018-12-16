@@ -23,17 +23,26 @@ public class Arguments {
             throw new InvalidArgumentException();
         }
 
-        String pathArg = args[0];
+        Path path = parsePath(args[0]);
+        String columnName = parseColumnName(args[1]);
+
+        return new Arguments(path, columnName);
+    }
+
+    private static Path parsePath(String pathArg) {
         if (pathArg.isEmpty()) {
             throw new InvalidArgumentException("CSV file path cannot be empty");
         }
 
-        String columnNameArg = args[1];
+        return Paths.get(pathArg);
+    }
+
+    private static String parseColumnName(String columnNameArg) {
         if (columnNameArg.isEmpty()) {
             throw new InvalidArgumentException("Column name cannot be empty");
         }
 
-        return new Arguments(Paths.get(pathArg), columnNameArg);
+        return columnNameArg;
     }
 
     public static class InvalidArgumentException extends RuntimeException {
