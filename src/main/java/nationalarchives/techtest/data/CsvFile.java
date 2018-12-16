@@ -28,6 +28,13 @@ public class CsvFile {
                     String.join(", ", columnNames)
             ));
         }
+        if (rowNumber < 1 || rowNumber > rows.size()) {
+            throw new IllegalArgumentException(String.format(
+                    "Cannot update row %d of CSV with %d rows",
+                    rowNumber,
+                    rows.size()
+            ));
+        }
 
         int rowIndex = rowNumber - 1;
         rows.get(rowIndex).updateField(columnName, newValue);

@@ -44,9 +44,40 @@ public class CsvFileTest {
     public void rejectsUnknownColumn() {
         CsvFile file = new CsvFileBuilder()
                 .withHeaders("col1", "col2", "col3")
-                .withRow("value1", "value1", "value1")
+                .withRow("value1", "value2", "value3")
                 .build();
 
         file.updateField("otherColumn", 1, "new value");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void rejectsNegativeRow() {
+        CsvFile file = new CsvFileBuilder()
+                .withHeaders("col1", "col2", "col3")
+                .withRow("value", "value", "value")
+                .build();
+
+        file.updateField("col1", -5, "new value");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void rejectsRowZero() {
+        CsvFile file = new CsvFileBuilder()
+                .withHeaders("col1", "col2", "col3")
+                .withRow("value", "value", "value")
+                .build();
+
+        // Rows are 1-indexed, so row 0 cannot be updated
+        file.updateField("col1", 0, "new value");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void rejectsNonExistentRow() {
+        CsvFile file = new CsvFileBuilder()
+                .withHeaders("col1", "col2", "col3")
+                .withRow("value", "value", "value")
+                .build();
+
+        file.updateField("col1", 2, "new value");
     }
 }
