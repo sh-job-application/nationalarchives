@@ -35,7 +35,7 @@ public class CsvService {
         List<String> columnNames = getOrderedColumnNames(headerMap);
         List<CsvRow> rows = csvRecords.getRecords()
                 .stream()
-                .map(strings -> new CsvRow(strings))
+                .map(record -> new CsvRow(record.toMap()))
                 .collect(Collectors.toList());
 
         return new CsvFile(columnNames, rows);

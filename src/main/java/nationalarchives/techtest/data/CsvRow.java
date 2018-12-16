@@ -1,14 +1,12 @@
 package nationalarchives.techtest.data;
 
-import org.apache.commons.csv.CSVRecord;
-
 import java.util.Map;
 
 public class CsvRow {
     private final Map<String, String> fields;
 
-    public CsvRow(CSVRecord csvRecord) {
-        fields = csvRecord.toMap();
+    public CsvRow(Map<String, String> fields) {
+        this.fields = fields;
     }
 
     public String get(String columnName) {
