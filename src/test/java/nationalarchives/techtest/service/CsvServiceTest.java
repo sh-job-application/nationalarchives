@@ -1,21 +1,32 @@
 package nationalarchives.techtest.service;
 
 import nationalarchives.techtest.data.CsvFile;
+import nationalarchives.techtest.data.CsvFileBuilder;
 import nationalarchives.techtest.data.CsvRow;
+import org.apache.commons.io.FileUtils;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class CsvServiceTest {
     private final CsvService csvService = new CsvService();
+
+    @Rule
+    public TemporaryFolder temporaryFolder = new TemporaryFolder();
 
     @Test
     public void readsFileWithNoRowData() throws IOException {
@@ -60,9 +71,36 @@ public class CsvServiceTest {
         csvService.readCsv(missingPath);
     }
 
-    private Path fixturePath(String fixtureFile) {
-        URL fileUrl = this.getClass()
-                .getResource("/fixtures/csvServiceTest/" + fixtureFile);
-        return Paths.get(fileUrl.getPath());
+    @Test
+    public void savesDataToFile() throws IOException, URISyntaxException {
+        CsvFile csvFile = new CsvFileBuilder()
+                .withHeaders("someHeader", "otherHeader")
+                .withRow("value1", "value2")
+                .withRow("value3", "value4")
+                .build();
+        Path fileUrl = outputPath("output.csv");
+
+        csvService.saveCsv(csvFile, fileUrl);
+
+        String expectedContents = "someHeader,otherHeader\n" +
+                "value1,value2\n" +
+                "value3,value4\n";
+        String fileContents = readFile(fileUrl);
+        assertEquals(expectedContents, fileContents);
+    }
+
+    private Path fixturePath(String fixtureFileName) {
+        URL fileUrl = this.getClass().getResource("/fixtures/csvServiceTest/" + fixtureFileName);
+        String path = fileUrl.getPath();
+        return Paths.get(path);
+    }
+
+    private Path outputPath(String outputFileName) throws IOException {
+        File tempFile = temporaryFolder.newFile(outputFileName);
+        return tempFile.toPath();
+    }
+
+    private static String readFile(Path path) throws IOException {
+        return FileUtils.readFileToString(path.toFile(), Charset.defaultCharset());
     }
 }

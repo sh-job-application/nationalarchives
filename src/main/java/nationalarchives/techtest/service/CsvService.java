@@ -4,6 +4,7 @@ import nationalarchives.techtest.data.CsvFile;
 import nationalarchives.techtest.data.CsvRow;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVPrinter;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class CsvService {
@@ -39,6 +41,23 @@ public class CsvService {
                 .collect(Collectors.toList());
 
         return new CsvFile(columnNames, rows);
+    }
+
+    public void saveCsv(CsvFile csvFile, Path path) throws IOException {
+        try (BufferedWriter writer = Files.newBufferedWriter(path)) {
+            List<String> columnNames = csvFile.getColumnNames();
+            CSVPrinter csvPrinter = CSVFormat.DEFAULT
+                    .withRecordSeparator("\n")
+                    .withHeader(columnNames.toArray(new String[columnNames.size()]))
+                    .print(writer);
+
+            for (CsvRow row : csvFile.getRows()) {
+                List<String> record = columnNames.stream()
+                        .map(columnName -> row.get(columnName))
+                        .collect(Collectors.toList());
+                csvPrinter.printRecord(record);
+            }
+        }
     }
 
     private static List<String> getOrderedColumnNames(Map<String, Integer> headerMap) {
