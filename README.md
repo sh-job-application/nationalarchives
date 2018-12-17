@@ -62,6 +62,10 @@ For example, it should enable column 'origin',  value Londom to be replaced with
 * The user should be able to specify the input parameters when running the application from the command line
 * It's OK for the application to only update one value each time it is run
 * The CSV can have any number of rows, and any column names
+* The user is a developer or someone who won't be confused by a stack trace shown if the application throws an
+  exception. I've tried to give exceptions good error messages to make it easier to understand errors, but I would
+  wrap these in friendlier messages (and add logging to capture the full stack trace) if it would be helpful to the
+  user.
 
 ## Implementation notes
 
